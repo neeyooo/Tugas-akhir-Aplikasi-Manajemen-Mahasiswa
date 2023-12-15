@@ -1,3 +1,5 @@
+import com.sun.tools.javac.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,7 +20,6 @@ public class FirstPage{
         page.setTitle("Manajemen Mahasiswa");
         page.setResizable(false);
         page.setSize(350, 200);
-//        page.pack();
         page.setLocationRelativeTo(null);
         page.setVisible(true);
         page.setDefaultCloseOperation(page.EXIT_ON_CLOSE);
@@ -45,6 +46,6 @@ public class FirstPage{
         return !f.isFile() || f.length() == 0;
     }
     public static void main(String[] args) {
-        fPage = new FirstPage();
+        MainMenu menu = new MainMenu("syarif", "123");
     }
 }
