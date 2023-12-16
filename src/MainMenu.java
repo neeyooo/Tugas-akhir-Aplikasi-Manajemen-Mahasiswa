@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainMenu {
-    private static ArrayList<Integer> indexNotes = new ArrayList<Integer>();
+    private static ArrayList<Integer> indexNotes;
     JFrame page = new JFrame();
     private JLabel lblWelcome;
     private JPanel panel1;
@@ -24,7 +24,6 @@ public class MainMenu {
     private JTextField textField3;
     private JTextArea textArea1;
     private String nama, nim;
-    private int indexList;
     MainMenu(String nama, String nim){
         this.nama = nama;
         this.nim = nim;
@@ -47,7 +46,7 @@ public class MainMenu {
             public void valueChanged(ListSelectionEvent e) {
                 try{
                 if (!e.getValueIsAdjusting()) {
-                    indexList = list1.getSelectedIndex();
+                    int indexList = list1.getSelectedIndex();
                     deleteButton.setEnabled(true);
                     updateButton.setEnabled(true);
                     String [] test = getLineByIndex(indexList);
@@ -55,7 +54,6 @@ public class MainMenu {
                     textField2.setText(test[2]);
                     textField3.setText(test[3]);
                     textArea1.setText(test[4]);
-                    System.out.println(indexNotes.get(indexList));
                 }}catch (Exception ignored){
 
                 }
@@ -64,7 +62,7 @@ public class MainMenu {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                deleteLine(indexList);
+                deleteLine();
                 populateList();
             }
         });
@@ -84,17 +82,14 @@ public class MainMenu {
 
                 currentIndex++;
             }
+        } catch (IOException ignored) {
 
-            System.out.println("Indeks " + index + " tidak valid.");
-        } catch (IOException e) {
-            System.out.println("Terjadi kesalahan: " + e.getMessage());
         }
-
         return null;
     }
 
     void populateList() {
-        indexNotes.clear();
+        indexNotes = new ArrayList<Integer>();
         DefaultListModel clearModel = new DefaultListModel();
         clearModel.clear();
         list1.setModel(clearModel);
@@ -127,8 +122,9 @@ public class MainMenu {
             list1.setModel(listModel);
         }
     }
-    void deleteLine(int index){
+    void deleteLine(){
         try {
+            int index = indexNotes.get(list1.getSelectedIndex());
             File inputFile = new File("notes.txt");
             File temporaryFile = new File("tempFile.txt");
 
@@ -151,13 +147,11 @@ public class MainMenu {
 
             // Hapus file asli
             if (!inputFile.delete()) {
-                System.out.println("Gagal menghapus file asli.");
                 return;
             }
 
             // Ganti nama file sementara menjadi nama file asli
             if (!temporaryFile.renameTo(inputFile)) {
-                System.out.println("Gagal mengganti nama file sementara.");
                 return;
             }
             JOptionPane.showMessageDialog(deleteButton, "Berhasil menghapus.", "SUCCESS", JOptionPane.PLAIN_MESSAGE);
