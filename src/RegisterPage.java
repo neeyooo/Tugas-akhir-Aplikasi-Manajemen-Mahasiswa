@@ -57,10 +57,11 @@ class Operation{
 
             // Membaca setiap baris dalam file
             while ((line = br.readLine()) != null) {
-                lineNumber++;
-
-                // Memeriksa apakah string "halo,123" ada dalam baris
-                if (line.contains(data)) {
+                String[] parts = line.split(",");
+                String nimFromFile = parts.length > 1 ? parts[1].trim() : null;
+                if (nimFromFile != null && nimFromFile.equals(rPage.txtNIM.getText())) {
+                    return true; // NIM sudah ada
+                } else if (line.contains(data)) {
                     return true;
                 }
             }
