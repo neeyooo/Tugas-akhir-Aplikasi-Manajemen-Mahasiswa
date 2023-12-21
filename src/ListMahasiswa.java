@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Objects;
 
 public class ListMahasiswa {
     public static JFrame page = new JFrame();
@@ -32,7 +33,7 @@ public class ListMahasiswa {
         LOGINButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(lblMahasiswa.getText().isEmpty()){
+                if(Objects.equals(lblMahasiswa.getText(), "none, pilih item dalam combobox")){
                     JOptionPane.showMessageDialog(LOGINButton, "Pilih akun terlebih dahulu.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }else {
                     String[] data = lblMahasiswa.getText().split(",");
