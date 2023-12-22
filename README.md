@@ -2,7 +2,7 @@
 
 ### Deskripsi
 
-Proyek ini adalah aplikasi sederhana untuk manajemen mahasiswa. Aplikasi ini memungkinkan pengguna untuk mendaftar, masuk, dan melihat atau mengelola catatan-catatan penting.
+Proyek ini adalah aplikasi sederhana untuk manajemen mahasiswa untuk tugas akhir mata kuliah Pemrograman Lanjut. Aplikasi ini memungkinkan pengguna untuk mendaftar, masuk, dan melihat atau mengelola catatan-catatan tugas.
 
 ### Struktur Proyek
 
@@ -42,8 +42,4 @@ java FirstPage
     - Syarif Hermawan  
 	- Muhammad Izzat Farahidi  
 	- Panji Kusuma Adji Prasetyo
-Jika Anda ingin berkontribusi pada proyek ini, silakan buka [Panduan Kontribusi](CONTRIBUTING.md).
-
-### Lisensi
-
-Proyek ini dilisensikan di bawah [Lisensi Nama Lisensi]. Lihat file [LISENSI](LISENSI.md) untuk detail lebih lanjut.
+ 
