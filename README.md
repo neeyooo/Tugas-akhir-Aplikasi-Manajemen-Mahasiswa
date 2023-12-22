@@ -1,6 +1,3 @@
-
-# README
-
 ## Nama Proyek: Manajemen Mahasiswa
 
 ### Deskripsi
@@ -18,8 +15,6 @@ Proyek terdiri dari beberapa kelas:
 3. **ListMahasiswa**: Kelas ini menampilkan daftar mahasiswa yang telah terdaftar dan memungkinkan pengguna untuk memilih akun mahasiswa tertentu.
 
 4. **MainMenu**: Kelas ini merupakan halaman utama setelah masuk. Pengguna dapat melihat, menambah, menghapus, atau memperbarui catatan-catatan mereka.
-
-5. **Operation**: Kelas ini berisi operasi-operasi umum yang digunakan dalam proses pendaftaran, pemrosesan file, dan validasi.
 
 ### Cara Menjalankan Aplikasi
 
