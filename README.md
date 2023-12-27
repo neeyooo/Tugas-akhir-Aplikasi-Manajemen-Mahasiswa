@@ -38,6 +38,6 @@ java FirstPage
 2. **notes.txt**: File ini menyimpan catatan-catatan yang terkait dengan setiap mahasiswa.
 
 ### Kontribusi
-    - Syarif Hermawan  
-	- Muhammad Izzat Farahidi  
-	- Panji Kusuma Adji Prasetyo
+    - Syarif Hermawan  (202210370311114)
+	- Muhammad Izzat Farahidi  (202210370311143)
+	- Panji Kusuma Adji Prasetyo  (202210370311345)

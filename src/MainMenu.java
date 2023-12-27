@@ -4,6 +4,10 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +17,7 @@ import java.util.List;
 
 /**
  * Kelas MainMenu merepresentasikan antarmuka pengguna utama aplikasi Manajemen Catatan Mahasiswa.
- * Ini mencakup fitur-fitur seperti menambahkan, menghapus, dan memperbarui catatan.
+ * Ini mencakup fitur-fitur seperti menampilkan, menambahkan, menghapus, dan memperbarui catatan.
  */
 public class MainMenu {
     private static ArrayList<Integer> indexNotes;
@@ -165,7 +169,7 @@ public class MainMenu {
         }
 
         if (listModel.isEmpty()) {
-            JOptionPane.showMessageDialog(deleteButton, "Tidak ada catatan untuk akun ini. Silakan tambahkan catatan.", "Warning", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Tidak ada catatan untuk akun ini. Silakan tambahkan catatan.", "Warning", JOptionPane.PLAIN_MESSAGE);
         } else {
             list1.setModel(listModel);
         }
@@ -188,20 +192,27 @@ public class MainMenu {
             textArea1.setEnabled(true);
             textArea1.setEditable(true);
             textArea1.setText("");
-            JOptionPane.showMessageDialog(deleteButton, "Setelah memasukkan data. Silahkan klik tombol Update lagi untuk memperbarui.", "Info", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(tambahButton, "Setelah memasukkan data. Silahkan klik tombol Update lagi untuk memperbarui.", "Info", JOptionPane.PLAIN_MESSAGE);
         } else {
 
             if (textField1.getText().isEmpty() || textField2.getText().isEmpty() || textField3.getText().isEmpty() || textArea1.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(deleteButton, "Silakan isi semua kolom teks.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(tambahButton, "Silakan isi semua kolom teks.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
+            // Tambahkan validasi panjang kata pada kolom mata kuliah (textField1)
+            if (textField1.getText().length() > 15 || !textField1.getText().matches("[a-zA-Z]+")) {
+                JOptionPane.showMessageDialog(tambahButton, "Hanya diperbolehkan 15 karakter pada kolom nama tugas. Dan hanya karakter yang diijinkan.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             // Tambahkan validasi panjang kata pada kolom mata kuliah (textField2)
-            if (textField2.getText().split("\\s+").length > 1) {
-                JOptionPane.showMessageDialog(deleteButton, "Hanya diperbolehkan 1 kata pada kolom mata kuliah.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            if (textField2.getText().length() > 20 || !textField2.getText().matches("[a-zA-Z]+")) {
+                JOptionPane.showMessageDialog(tambahButton, "Hanya diperbolehkan 20 karakter pada kolom mata kuliah. Dan hanya karakter yang diijinkan.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
+            if (textArea1.getText().length() > 255 ) {
+                JOptionPane.showMessageDialog(tambahButton, "Hanya diperbolehkan 255 karakter pada kolom deskripsi.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             // Validate the date format before adding
             if (isValidDateFormat(textField3.getText())) {
                 textToAppend = String.format("%s,%s,%s,%s,%s", nim, textField1.getText(), textField2.getText(), textField3.getText(), textArea1.getText());
@@ -209,14 +220,14 @@ public class MainMenu {
                     // Append text to the end of the file
                     writer.write(textToAppend);
                     writer.newLine(); // Tambahkan baris baru untuk baris baru
-                    JOptionPane.showMessageDialog(deleteButton, "Sukses Ditambahkan.", "SUCCESS", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(tambahButton, "Sukses Ditambahkan.", "SUCCESS", JOptionPane.PLAIN_MESSAGE);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 repeatTambah = 0;
                 populateList();
             } else {
-                JOptionPane.showMessageDialog(deleteButton, "Format tanggal deadline tidak valid. Silakan gunakan dd-mm-yyyy.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(tambahButton, "Format tanggal deadline tidak valid. Silakan gunakan dd-mm-yyyy.", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -263,38 +274,68 @@ public class MainMenu {
         }
 
     }
-
-    void updateLine() {
+    void updateLine(){
         repeatUpdate += 1;
-        if (repeatUpdate == 1) {
-            textField1.setEnabled(true);
-            textField1.setEditable(true);
-            textField2.setEnabled(true);
-            textField2.setEditable(true);
-            textField3.setEnabled(true);
-            textField3.setEditable(true);
-            textArea1.setEnabled(true);
-            textArea1.setEditable(true);
-            JOptionPane.showMessageDialog(deleteButton, "Setelah memasukkan data. Silahkan klik tombol Tambah lagi untuk menambah.", "Info", JOptionPane.PLAIN_MESSAGE);
-        } else {
-            // Validate the date format before updating
-            if (isValidDateFormat(textField3.getText())) {
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter("notes.txt", true))) {
-                    // Append text to the end of the file
-                    writer.write(repeatUpdate);
-                    writer.newLine(); // Add a newline for a new line
-                    JOptionPane.showMessageDialog(deleteButton, "\"Berhasil menambah.", "SUCCESS", JOptionPane.PLAIN_MESSAGE);
+        if(repeatUpdate == 1) {
+            textField1.setEnabled(true); textField1.setEditable(true);
+            textField2.setEnabled(true);textField2.setEditable(true);
+            textField3.setEnabled(true);textField3.setEditable(true);
+            textArea1.setEnabled(true);textArea1.setEditable(true);
+            JOptionPane.showMessageDialog(updateButton, "Setelah memasukkan data. Silahkan klik tombol Update lagi untuk memperbarui.", "Info", JOptionPane.PLAIN_MESSAGE);
+        }else {
+            if (textField1.getText().isEmpty() || textField2.getText().isEmpty() || textField3.getText().isEmpty() || textArea1.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(updateButton, "Silakan isi semua kolom teks.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            // Tambahkan validasi panjang kata pada kolom mata kuliah (textField1)
+            if (textField1.getText().length() > 15 || !textField1.getText().matches("[a-zA-Z]+")) {
+                JOptionPane.showMessageDialog(updateButton, "Hanya diperbolehkan 15 karakter pada kolom nama tugas. Dan hanya karakter yang diijinkan.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            // Tambahkan validasi panjang kata pada kolom mata kuliah (textField2)
+            if (textField2.getText().length() > 20 || !textField2.getText().matches("[a-zA-Z]+")) {
+                JOptionPane.showMessageDialog(updateButton, "Hanya diperbolehkan 20 karakter pada kolom mata kuliah. Dan hanya karakter yang diijinkan.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!isValidDateFormat(textField3.getText())) {
+                JOptionPane.showMessageDialog(updateButton, "Format tanggal tidak valid. Silakan gunakan dd-mm-yyyy.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (textArea1.getText().length() > 255 ) {
+                JOptionPane.showMessageDialog(updateButton, "Hanya diperbolehkan 255 karakter pada kolom deskripsi.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            try {
+                // Baca semua baris dari file ke dalam List
+                Path path = Paths.get("notes.txt");
+                List<String> lines = Files.readAllLines(path);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+                // Periksa apakah index yang diinginkan ada dalam rentang
+                int indexToUpdate = indexNotes.get(list1.getSelectedIndex());
+                String newText = String.format("%s,%s,%s,%s,%s",nim,textField1.getText(),textField2.getText(),textField3.getText(),textArea1.getText());
+                if (indexToUpdate >= 0 && indexToUpdate < lines.size()) {
+                    // Update baris di index tertentu
+
+                    lines.set(indexToUpdate, newText);
+
+                    // Tulis kembali data yang telah diubah ke dalam file
+                    Files.write(path, lines, StandardOpenOption.WRITE);
+
                 }
-            } else {
-                JOptionPane.showMessageDialog(deleteButton, "Format tanggal tidak valid. Silakan gunakan dd-mm-yyyy.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(updateButton, "Berhasil mengupdate.", "SUCCESS", JOptionPane.PLAIN_MESSAGE);
+                repeatUpdate =0 ;
+                populateList();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
 
     boolean isValidDateFormat(String date) {
+        if (date.length() != 10) {
+            return false; // Panjang tanggal harus tepat 10 karakter (dd-MM-yyyy)
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         sdf.setLenient(false); // Strict validation
 
