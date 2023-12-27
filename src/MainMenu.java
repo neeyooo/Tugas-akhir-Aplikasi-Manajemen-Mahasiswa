@@ -200,12 +200,12 @@ public class MainMenu {
                 return;
             }
             // Tambahkan validasi panjang kata pada kolom mata kuliah (textField1)
-            if (textField1.getText().length() > 15 || !textField1.getText().matches("[a-zA-Z]+")) {
+            if (textField1.getText().length() > 15 || !textField1.getText().matches("[a-zA-Z ]+")) {
                 JOptionPane.showMessageDialog(tambahButton, "Hanya diperbolehkan 15 karakter pada kolom nama tugas. Dan hanya karakter yang diijinkan.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             // Tambahkan validasi panjang kata pada kolom mata kuliah (textField2)
-            if (textField2.getText().length() > 20 || !textField2.getText().matches("[a-zA-Z]+")) {
+            if (textField2.getText().length() > 20 || !textField2.getText().matches("[a-zA-Z ]+")) {
                 JOptionPane.showMessageDialog(tambahButton, "Hanya diperbolehkan 20 karakter pada kolom mata kuliah. Dan hanya karakter yang diijinkan.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -288,12 +288,12 @@ public class MainMenu {
                 return;
             }
             // Tambahkan validasi panjang kata pada kolom mata kuliah (textField1)
-            if (textField1.getText().length() > 15 || !textField1.getText().matches("[a-zA-Z]+")) {
+            if (textField1.getText().length() > 15 || !textField1.getText().matches("[a-zA-Z ]+")) {
                 JOptionPane.showMessageDialog(updateButton, "Hanya diperbolehkan 15 karakter pada kolom nama tugas. Dan hanya karakter yang diijinkan.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             // Tambahkan validasi panjang kata pada kolom mata kuliah (textField2)
-            if (textField2.getText().length() > 20 || !textField2.getText().matches("[a-zA-Z]+")) {
+            if (textField2.getText().length() > 20 || !textField2.getText().matches("[a-zA-Z ]+")) {
                 JOptionPane.showMessageDialog(updateButton, "Hanya diperbolehkan 20 karakter pada kolom mata kuliah. Dan hanya karakter yang diijinkan.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
             }
